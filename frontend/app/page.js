@@ -53,7 +53,6 @@ export default function Dashboard() {
   const [refreshing, setRefreshing] = useState(false);
   const [toast, setToast] = useState(null);
   const [syncTime, setSyncTime] = useState(null);
-  const [syncTime, setSyncTime] = useState(null);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
