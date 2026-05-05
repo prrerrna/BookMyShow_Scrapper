@@ -1,21 +1,18 @@
 {
-  "name": "pixie-events-backend",
+  "name": "bookmyshow-scraper",
   "version": "1.0.0",
   "private": true,
-  "main": "server.js",
+  "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js",
+    "start": "node index.js",
+    "dev": "node index.js",
     "postinstall": "npx playwright install --with-deps chromium"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.97.0",
-    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.19.2",
     "googleapis": "^171.4.0",
-    "node-cron": "^3.0.3",
     "playwright": "^1.58.1"
   }
 }

@@ -1,7 +1,7 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Pixie Event Tracker | Analytics Dashboard",
+  title: "BookMyShow Event Tracker | Analytics Dashboard",
   description: "Real-time event analytics scraped from BookMyShow across Indian cities",
 };
 

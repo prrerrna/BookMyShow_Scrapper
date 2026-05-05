@@ -8,7 +8,7 @@ import CityBarChart from './components/CityBarChart';
 import CategoryPieChart from './components/CategoryPieChart';
 import EventsTable from './components/EventsTable';
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+const API = '/api';
 const CITIES = ['jaipur', 'mumbai', 'delhi', 'chandigarh', 'lucknow'];
 
 /* ── Live status computation ─────────────── */
@@ -53,7 +53,7 @@ export default function Dashboard() {
   const [refreshing, setRefreshing] = useState(false);
   const [toast, setToast] = useState(null);
   const [syncTime, setSyncTime] = useState(null);
-  const [showBanner, setShowBanner] = useState(true);
+  const [syncTime, setSyncTime] = useState(null);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -93,12 +93,9 @@ export default function Dashboard() {
     if (city === 'all') { flash('Pick a city first', 'error'); return; }
     setRefreshing(true);
     try {
-      const r = await fetch(`${API}/refresh-events?city=${city}`, { method: 'POST' });
-      const d = await r.json();
-      if (!r.ok) throw new Error(d.error || 'Refresh failed');
-      flash(`Scraped ${d.refreshed} events for ${city} ✨`);
       await fetchAll();
-    } catch (err) { flash(err.message, 'error'); }
+      flash(`Synced latest events for ${city} ✨`);
+    } catch (err) { flash('Failed to sync from database', 'error'); }
     finally { setRefreshing(false); }
   };
 
@@ -129,53 +126,7 @@ export default function Dashboard() {
       <div className="noise" />
       <div className="dot-grid" />
 
-      {/* ── Service Status Banner ──────────────── */}
-      <AnimatePresence>
-        {showBanner && (
-          <motion.div
-            initial={{ opacity: 0, y: -40 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -40 }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
-            style={{
-              position: 'relative',
-              background: 'linear-gradient(90deg, #F59E0B22, #EF444422)',
-              borderBottom: '1px solid #F59E0B55',
-              backdropFilter: 'blur(10px)',
-              padding: '10px 20px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 10,
-              fontSize: 13,
-              color: '#FCD34D',
-            }}
-          >
-            <span style={{ fontSize: 16 }}>⚠️</span>
-            <span>
-              <strong>Service Notice:</strong> Since 20th March 2026, the data scraper may be temporarily limited or inactive due to deployment credits on Railway.
-              To keep this project running or to license this scraper, reach out at{' '}
-              <a
-                href="mailto:kprerna183@gmail.com"
-                style={{ color: '#FCD34D', fontWeight: 700, textDecoration: 'underline' }}
-              >
-                kprerna183@gmail.com
-              </a>
-            </span>
-            <button
-              onClick={() => setShowBanner(false)}
-              style={{
-                position: 'absolute', right: 14,
-                background: 'none', border: 'none', cursor: 'pointer',
-                color: '#FCD34D', fontSize: 18, lineHeight: 1, padding: 4,
-              }}
-              aria-label="Dismiss"
-            >
-              ×
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* ── Removed Service Banner ──────────────── */}
 
       <div className="shell">
         {/* ── Header ─────────────────────────────── */}
@@ -185,7 +136,7 @@ export default function Dashboard() {
               <Zap size={28} color="white" fill="white" />
             </motion.div>
             <div>
-              <div className="hdr-title">Pixie Event Tracker</div>
+              <div className="hdr-title">BookMyShow Analytics</div>
               <div className="hdr-sub">
                 Real-time BookMyShow analytics
                 {syncTime && (
